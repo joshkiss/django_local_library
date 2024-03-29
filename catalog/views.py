@@ -52,3 +52,14 @@ class BookDetailView(generic.DetailView):
 
 class AuthorDetailView(generic.DetailView):
     model = Author
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['books'] = Book.objects.filter(author=Author)
+        return context
+    
+
+class AuthorListView(generic.ListView):
+    model = Author
+    context_object_name = 'author_list'
+    queryset = Author.objects.all()
